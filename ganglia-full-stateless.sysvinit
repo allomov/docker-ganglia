@@ -45,7 +45,7 @@ start() {
       -v /etc/ganglia:/etc/ganglia \
       -v /var/lib/ganglia:/var/lib/ganglia \
       -p 0.0.0.0:80:80 \
-        wookietreiber/ganglia \
+        allomov/ganglia \
           --with-gmond \
           --timezone Continent/City \
       &>> $logfile &

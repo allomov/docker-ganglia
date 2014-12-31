@@ -1,6 +1,6 @@
 FROM centos:centos6
 
-MAINTAINER wookietreiber
+MAINTAINER allomov
 
 # base system upgrade and system dependencies
 RUN yum upgrade -y && \

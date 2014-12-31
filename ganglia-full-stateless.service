@@ -6,7 +6,7 @@ After=docker.service
 [Service]
 Restart=always
 RestartSec=5
-ExecStart=/usr/bin/docker run -rm -name ganglia -h %H -v /etc/ganglia:/etc/ganglia -v /var/lib/ganglia:/var/lib/ganglia -p 0.0.0.0:80:80 wookietreiber/ganglia --with-gmond --timezone Continent/City
+ExecStart=/usr/bin/docker run -rm -name ganglia -h %H -v /etc/ganglia:/etc/ganglia -v /var/lib/ganglia:/var/lib/ganglia -p 0.0.0.0:80:80 allomov/ganglia --with-gmond --timezone Continent/City
 ExecStop=/usr/bin/docker kill ganglia
 
 [Install]

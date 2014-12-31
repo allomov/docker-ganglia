@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage() { cat << EOF
-Usage: docker run wookietreiber/ganglia [opts]
+Usage: docker run allomov/ganglia [opts]
 
 Run a ganglia-web container.
 
