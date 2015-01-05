@@ -12,12 +12,12 @@ RUN yum upgrade -y && \
 
 # pcre dependency
 RUN cd /usr/src && \
-    wget -q ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.33.tar.gz && \
-    tar xzf pcre-8.33.tar.gz && \
-    cd pcre-8.33 && \
+    wget -q ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz && \
+    tar xzf pcre-8.36.tar.gz && \
+    cd pcre-8.36 && \
     ./configure --prefix=/usr && \
     make && make install && ldconfig && \
-    rm -rf /usr/src/pcre-8.33*
+    rm -rf /usr/src/pcre-8.36*
 
 # confuse dependency
 RUN cd /usr/src && \
@@ -30,21 +30,22 @@ RUN cd /usr/src && \
 
 # ganglia-core
 RUN cd /usr/src && \
-    wget -q http://downloads.sourceforge.net/ganglia/ganglia-3.6.0.tar.gz && \
-    tar xzf ganglia-3.6.0.tar.gz && \
-    cd /usr/src/ganglia-3.6.0 && \
+    wget -q http://downloads.sourceforge.net/ganglia/ganglia-3.6.1.tar.gz && \
+    tar xzf ganglia-3.6.1.tar.gz && \
+    cd /usr/src/ganglia-3.6.1 && \
     ./configure --prefix=/usr --sysconfdir=/etc/ganglia/ --sbindir=/usr/sbin/ --with-gmetad --enable-gexec --enable-status && \
     make && make install && ldconfig && \
-    rm -rf /usr/src/ganglia-3.6.0*
+    rm -rf /usr/src/ganglia-3.6.1*
 
 # ganglia-web
 RUN cd /usr/src && \
-    wget -q http://downloads.sourceforge.net/ganglia/ganglia-web-3.5.10.tar.gz && \
-    tar xzf ganglia-web-3.5.10.tar.gz && \
-    mv ganglia-web-3.5.10 /var/www/html/ganglia && \
+    wget -q http://downloads.sourceforge.net/ganglia/ganglia-web-3.6.2.tar.gz && \
+    tar xzf ganglia-web-3.6.2.tar.gz && \
+    mv ganglia-web-3.6.2 /var/www/html/ganglia && \
     cd /var/www/html/ganglia && \
-    make install && \
-    rm -rf /usr/src/ganglia-web-3.5.10*
+    sed -i '/APACHE_USER = www-data/d' ./Makefile && \
+    APACHE_USER=apache make install && \
+    rm -rf /usr/src/ganglia-web-3.6.2*
 
 # add the ganglia user and group
 RUN useradd -r -U -d /var/lib/ganglia -s /bin/false ganglia
@@ -58,7 +59,7 @@ RUN gmond -t \
 ADD start.sh start.sh
 
 # entrypoint is the start script
-ENTRYPOINT ["bash","start.sh"]
+ENTRYPOINT ["bash", "start.sh"]
 
 # default is with gmond for seeing something
 CMD ["--with-gmond"]
